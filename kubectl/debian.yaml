@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: debian
+  labels:
+    app: debian
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: debian
+      labels:
+        app: debian
+    spec:
+      containers:
+        - name: debian
+          image: debian:buster
+          imagePullPolicy: IfNotPresent
+          command: ["/bin/bash", "-c", "--"]
+          args: ["trap : TERM INT; sleep infinity & wait"]
+      restartPolicy: Always
+  selector:
+    matchLabels:
+      app: debian
